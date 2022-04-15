@@ -1,0 +1,88 @@
+name: git-checkout
+description: 'GitHub composite action extension of `actions/checkout` action'
+
+inputs:
+  # CAUTION:
+  #   The `inputs` is derived from the https://github.com/actions/checkout action script.
+  #
+  repository:
+    default: ${{ github.repository }}
+  ref:
+    required: false
+  token:
+    default: ${{ github.token }}
+  ssh-key:
+    required: false
+  ssh-known-hosts:
+    required: false
+  ssh-strict:
+    default: true
+  persist-credentials:
+    default: true
+  path:
+    required: false
+  clean:
+    default: true
+  fetch-depth:
+    default: 1
+  lfs:
+    default: false
+  submodules:
+    default: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'check repository on existence and not empty: `${{ inputs.repository }}`'
+      id: check-repo-exists-and-has-ref
+      #continue-on-error: true
+      shell: bash
+      run: |
+        # CAUTION: must be with a token, otherwise will fail on a private repository
+        if git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" > /dev/null 2>&1; then
+          echo "::set-output name=is-repo-exists-and-has-ref::true"
+        else
+          echo "::set-output name=is-repo-exists-and-has-ref::false"
+        fi
+
+    # CAUTION:
+    #
+    #   Use copmarison with the string in the `if` expression to temporary workaround the issue:
+    #
+    #   `Boolean inputs are not actually booleans` : https://github.com/actions/runner/issues/1483
+    #
+
+    - if: ${{ steps.check-repo-exists-and-has-ref.conclusion == 'success' }}
+    #- if: ${{ steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true' }}
+      uses: actions/checkout@v3
+      with:
+        repository:           ${{ inputs.repository }}
+        ref:                  ${{ inputs.ref }}
+        token:                ${{ inputs.token }}
+        ssh-key:              ${{ inputs.ssh-key }}
+        ssh-known-hosts:      ${{ inputs.ssh-known-hosts }}
+        ssh-strict:           ${{ inputs.ssh-strict }}
+        persist-credentials:  ${{ inputs.persist-credentials }}
+        path:                 ${{ inputs.path }}
+        clean:                ${{ inputs.clean }}
+        fetch-depth:          ${{ inputs.fetch-depth }}
+        lfs:                  ${{ inputs.lfs }}
+        submodules:           ${{ inputs.submodules }}
+
+    - if: ${{ steps.check-repo-exists-and-has-ref.conclusion != 'success' }}
+    #- if: ${{ steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref != 'true' }}
+      shell: bash
+      run: |
+        if [[ -n "${{ inputs.path }}" && ! -e "$GITHUB_WORKSPACE/${{ inputs.path }}" ]]; then
+          mkdir -p "$GITHUB_WORKSPACE/${{ inputs.path }}"
+        fi
+        if [[ ! -e "$GITHUB_WORKSPACE/${{ inputs.path }}/.git" ]]; then
+          pushd "$GITHUB_WORKSPACE/${{ inputs.path }}" && {
+            git init || exit
+            git remote add origin "https://github.com/${{ inputs.repository }}" || exit
+            if [[ -n "${{ inputs.ref }}" ]]; then
+              git branch -m "${{ inputs.ref }}"
+            fi
+            popd
+          }
+        fi

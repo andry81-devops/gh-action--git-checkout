@@ -1,0 +1,5 @@
+2022.04.15:
+* new: `changelog.txt` changelog file
+* new: `userlog.txt` userlog file
+* new: `license.txt` license file
+* new: action.yml: initial implementation
