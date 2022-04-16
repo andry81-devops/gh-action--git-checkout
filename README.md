@@ -37,12 +37,13 @@
 <p align="center">
   <a href="https://github.com/andry81-devops/gh-action--git-checkout/blob/master/userlog.md">Userlog</a>
 • <a href="https://github.com/andry81-devops/gh-action--git-checkout/blob/master/changelog.txt">Changelog</a>
-• <a href="#dependecies">Dependencies</a>
 • <a href="#known_issues">Known issues</a>
 • <a href="#copyright-and-license"><img src="https://github.com/andry81/andry81/raw/master/badges/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 
-<h4 align="center">GitHub composite action extension of <tt>actions/checkout</tt> action.</h4>
+<h4 align="center">GitHub composite action extension of <tt>actions/checkout</tt> action.<br/>
+<br/>
+Tutorial to use with: https://github.com/andry81-devops/github-action-extensions</h4>
 
 ##
 
@@ -50,9 +51,11 @@
 
 **Features**:
 
-* Checks if remote repository is exist and has a reference, otherwise call to `mkdir` instead of the checkout.
+* Checks if a remote repository does exist and has a branch reference to delegate all input into https://github.com/actions/checkout action.
 
-* If remote repository is exist and has a reference, then delegates all input into https://github.com/actions/checkout action.
+* Otherwise calls to `mkdir` + `git init` instead of call to the `actions/checkout` action script.
+
+* Additionally can create working copy subdirectories after the call (`mkdir-p` extra parameter). Has a difference with a working copy subdirectory creation before the checkout, because the `action/checkout` action script does cleanup a working copy directory before the checkout.
 
 # USAGE
 
@@ -64,15 +67,20 @@ steps:
     with:
       repository: ...
       ref:        ...
+      path:       ...
+      token:      ...
 
-      actions-checkout-ref: HEAD
+      mkdir-p: >-
+        ...
 ```
 
 ## <a name="known_issues">Known Issues</a>
 
-### Works on a private repository because of GitHub security issue
+https://github.com/andry81-devops/github-action-extensions/blob/master/README.md#known_issues
 
-Implemented to work only with a public repository but currently works on a private repository too because of GitHub security issue and can stop to work in future.
+## <a name="known_issues_updates">Last known updates on composite actions features</a>
+
+https://github.com/andry81-devops/github-action-extensions/blob/master/README.md#known_issues_updates
 
 ## <a name="copyright-and-license">Copyright and License</a>
 
