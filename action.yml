@@ -1,3 +1,6 @@
+# Tutorial to use with: https://github.com/andry81-devops/github-action-extensions
+#
+
 name: git-checkout
 description: 'GitHub composite action extension of `actions/checkout` action'
 
@@ -30,10 +33,13 @@ inputs:
   submodules:
     default: false
 
+  mkdir-p:
+    default: false
+
 runs:
   using: "composite"
   steps:
-    - name: 'check repository on existence and not empty: `${{ inputs.repository }}`'
+    - name: 'check repository on existence and has a branch reference: `${{ inputs.repository }}`'
       id: check-repo-exists-and-has-ref
       #continue-on-error: true
       shell: bash
@@ -52,8 +58,8 @@ runs:
     #   `Boolean inputs are not actually booleans` : https://github.com/actions/runner/issues/1483
     #
 
-    - if: ${{ steps.check-repo-exists-and-has-ref.conclusion == 'success' }}
-    #- if: ${{ steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true' }}
+    #- if: ${{ steps.check-repo-exists-and-has-ref.conclusion == 'success' }}
+    - if: ${{ steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true' }}
       uses: actions/checkout@v3
       with:
         repository:           ${{ inputs.repository }}
@@ -69,20 +75,47 @@ runs:
         lfs:                  ${{ inputs.lfs }}
         submodules:           ${{ inputs.submodules }}
 
-    - if: ${{ steps.check-repo-exists-and-has-ref.conclusion != 'success' }}
-    #- if: ${{ steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref != 'true' }}
+    - name: 'working copy initialization: `${{ inputs.path }}`'
+    # if: ${{ steps.check-repo-exists-and-has-ref.conclusion != 'success' }}
+      if: ${{ steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref != 'true' }}
       shell: bash
       run: |
-        if [[ -n "${{ inputs.path }}" && ! -e "$GITHUB_WORKSPACE/${{ inputs.path }}" ]]; then
-          mkdir -p "$GITHUB_WORKSPACE/${{ inputs.path }}"
+        inputs_path='${{ inputs.path }}'
+        function call()
+        {
+          echo ">$@"
+          "$@"
+        }
+        if [[ ! -e "$GITHUB_WORKSPACE${inputs_path:+/}$inputs_path" ]]; then
+          call mkdir -p "$GITHUB_WORKSPACE${inputs_path:+/}$inputs_path" || exit
         fi
-        if [[ ! -e "$GITHUB_WORKSPACE/${{ inputs.path }}/.git" ]]; then
-          pushd "$GITHUB_WORKSPACE/${{ inputs.path }}" && {
-            git init || exit
-            git remote add origin "https://github.com/${{ inputs.repository }}" || exit
+        if [[ ! -e "$GITHUB_WORKSPACE${inputs_path:+/}$inputs_path/.git" ]]; then
+          call pushd "$GITHUB_WORKSPACE${inputs_path:+/}$inputs_path" && {
+            call git init || exit
+            call git remote add origin "https://github.com/${{ inputs.repository }}" || exit
             if [[ -n "${{ inputs.ref }}" ]]; then
-              git branch -m "${{ inputs.ref }}"
+              call git branch -m "${{ inputs.ref }}" || exit
             fi
-            popd
+            call popd
           }
         fi
+
+    - name: working copy directories allocation
+      if: ${{ inputs.mkdir-p != '' }}
+      shell: bash
+      run: |
+        inputs_mkdir_p=(${{ inputs.mkdir-p }})
+        inputs_path='${{ inputs.path }}'
+        function call()
+        {
+          echo ">$@"
+          "$@"
+        }
+        call pushd "$GITHUB_WORKSPACE${inputs_path:+/}$inputs_path" && {
+          for arg in "${inputs_mkdir_p[@]}"; do
+            if [[ ! -e "$arg" ]]; then
+              call mkdir -p "$arg" || exit
+            fi
+          done
+          call popd
+        }
