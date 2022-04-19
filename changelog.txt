@@ -1,3 +1,6 @@
+2022.04.19:
+* changed: README.md: readme update
+
 2022.04.16:
 * new: action.yml: added `mkdir-p` to allocate directories after checkout because the `actions/checkout` action script does cleanup a working copy directory before execution
 * changed: README.md: readme update

@@ -74,13 +74,15 @@ steps:
         ...
 ```
 
-## <a name="known_issues">Known Issues</a>
+> :information_source: See <a href="https://github.com/andry81-devops/github-accum-stats#reuse">REUSE</a> section for details if you have multiple repositories and want to store all GitHub workflow scripts (`.github/workflows/*.yml`) in a single repository.
 
-https://github.com/andry81-devops/github-action-extensions/blob/master/README.md#known_issues
+## Known Issues
 
-## <a name="known_issues_updates">Last known updates on composite actions features</a>
+https://github.com/andry81-devops/github-action-extensions#known-issues
 
-https://github.com/andry81-devops/github-action-extensions/blob/master/README.md#known_issues_updates
+## Last known issues updates
+
+https://github.com/andry81-devops/github-action-extensions#last-known-issues-updates
 
 ## <a name="copyright-and-license">Copyright and License</a>
 
