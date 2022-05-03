@@ -37,7 +37,7 @@
 <p align="center">
   <a href="https://github.com/andry81-devops/gh-action--git-checkout/blob/master/userlog.md">Userlog</a>
 • <a href="https://github.com/andry81-devops/gh-action--git-checkout/blob/master/changelog.txt">Changelog</a>
-• <a href="#known_issues">Known issues</a>
+• <a href="#known-issues">Known issues</a>
 • <a href="#copyright-and-license"><img src="https://github.com/andry81/andry81/raw/master/badges/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 
