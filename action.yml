@@ -1,7 +1,7 @@
 # Tutorial to use with: https://github.com/andry81-devops/github-action-extensions
 #
 
-name: git-checkout
+name: 'Git Checkout Extension'
 description: 'GitHub composite action extension of `actions/checkout` action'
 
 inputs:
