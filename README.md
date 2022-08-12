@@ -53,6 +53,8 @@
 <br/>
 Tutorial to use with: https://github.com/andry81-devops/github-action-extensions</h4>
 
+All tutorials: https://github.com/andry81/index#tutorials
+
 ##
 
 # gh-action--git-checkout@master
