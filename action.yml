@@ -46,9 +46,9 @@ runs:
       run: |
         # CAUTION: must be with a token, otherwise will fail on a private repository
         if git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" > /dev/null 2>&1; then
-          echo "::set-output name=is-repo-exists-and-has-ref::true"
+          echo "is-repo-exists-and-has-ref=true" >> "$GITHUB_OUTPUT"
         else
-          echo "::set-output name=is-repo-exists-and-has-ref::false"
+          echo "is-repo-exists-and-has-ref=false" >> "$GITHUB_OUTPUT"
         fi
 
     # CAUTION:
