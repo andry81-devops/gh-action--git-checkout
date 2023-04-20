@@ -1,3 +1,6 @@
+2023.04.20:
+* fixed: README.md: static badges address change
+
 2022.10.30:
 * changed: action.yml: `set-output` command is replaced in favor of `$GITHUB_OUTPUT` variable usage (details: https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/ )
 
