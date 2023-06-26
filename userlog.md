@@ -5,6 +5,11 @@
 > :information_source: Legend: :shield: - security; :wrench: - fixed; :new: - new; :pencil: - changed; :twisted_rightwards_arrows: - refactor
 
 ## 2023.06.26:
+* :wrench: fixed: action.yml: missed to check `inputs.ref` for existence
+* :new: new: action.yml: added `actions--checkout-ref` input parameter to use specific `actions/checkout@<ref>` version (default: `v3`, variants: `v2`)
+* :pencil: changed: action.yml: parameters updated to latest `actions/checkout` of version `v3` and `v2`
+
+## 2023.06.26:
 * :wrench: fixed: action.yml: #1: missed branch reference to use
 
 ## 2022.10.30:

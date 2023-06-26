@@ -1,4 +1,9 @@
 2023.06.26:
+* fixed: action.yml: missed to check `inputs.ref` for existence
+* new: action.yml: added `actions--checkout-ref` input parameter to use specific `actions/checkout@<ref>` version (default: `v3`, variants: `v2`)
+* changed: action.yml: parameters updated to latest `actions/checkout` of version `v3` and `v2`
+
+2023.06.26:
 * fixed: action.yml: #1: missed branch reference to use
 
 2023.04.20:

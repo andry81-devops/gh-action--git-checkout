@@ -32,6 +32,15 @@ inputs:
     default: false
   submodules:
     default: false
+  set-safe-directory:
+    default: true
+  github-server-url:
+    required: false
+
+  # available: v3 | v2
+  actions--checkout-ref:
+    required: false
+    default: v3
 
   mkdir-p:
     default: false
@@ -45,7 +54,12 @@ runs:
       shell: bash
       run: |
         # CAUTION: must be with a token, otherwise will fail on a private repository
-        if git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" "${{ inputs.ref }}" > /dev/null 2>&1; then
+        if [[ -n "${{ inputs.ref }}" ]]; then
+          git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" "${{ inputs.ref }}" > /dev/null 2>&1
+        else
+          git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" > /dev/null 2>&1
+        fi
+        if (( ! $? )); then
           echo "is-repo-exists-and-has-ref=true" >> "$GITHUB_OUTPUT"
         else
           echo "is-repo-exists-and-has-ref=false" >> "$GITHUB_OUTPUT"
@@ -59,7 +73,7 @@ runs:
     #
 
     #- if: ${{ steps.check-repo-exists-and-has-ref.conclusion == 'success' }}
-    - if: ${{ steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true' }}
+    - if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v3') }}
       uses: actions/checkout@v3
       with:
         repository:           ${{ inputs.repository }}
@@ -74,6 +88,25 @@ runs:
         fetch-depth:          ${{ inputs.fetch-depth }}
         lfs:                  ${{ inputs.lfs }}
         submodules:           ${{ inputs.submodules }}
+        set-safe-directory:   ${{ inputs.set-safe-directory }}
+        github-server-url:    ${{ inputs.github-server-url }}
+
+    - if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v2') }}
+      uses: actions/checkout@v2
+      with:
+        repository:           ${{ inputs.repository }}
+        ref:                  ${{ inputs.ref }}
+        token:                ${{ inputs.token }}
+        ssh-key:              ${{ inputs.ssh-key }}
+        ssh-known-hosts:      ${{ inputs.ssh-known-hosts }}
+        ssh-strict:           ${{ inputs.ssh-strict }}
+        persist-credentials:  ${{ inputs.persist-credentials }}
+        path:                 ${{ inputs.path }}
+        clean:                ${{ inputs.clean }}
+        fetch-depth:          ${{ inputs.fetch-depth }}
+        lfs:                  ${{ inputs.lfs }}
+        submodules:           ${{ inputs.submodules }}
+        set-safe-directory:   ${{ inputs.set-safe-directory }}
 
     - name: 'working copy initialization: `${{ inputs.path }}`'
     # if: ${{ steps.check-repo-exists-and-has-ref.conclusion != 'success' }}
