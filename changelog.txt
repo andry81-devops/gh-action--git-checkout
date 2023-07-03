@@ -1,3 +1,7 @@
+2023.07.03:
+* changed: action.yml: added `[<workflow-name>][<step-number>]` as a prefix in all step names and duplicated it with the step name in the first comment line in all scripts to identify each step in a common pipeline log
+* refactor: action.yml: renamed workflow `Git Checkout Extension` to `git-checkout-extension`
+
 2023.06.26:
 * fixed: action.yml: missed to check `inputs.ref` for existence
 * new: action.yml: added `actions--checkout-ref` input parameter to use specific `actions/checkout@<ref>` version (default: `v3`, variants: `v2`)

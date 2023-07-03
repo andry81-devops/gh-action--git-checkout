@@ -4,6 +4,9 @@
 
 > :information_source: Legend: :shield: - security; :wrench: - fixed; :new: - new; :pencil: - changed; :twisted_rightwards_arrows: - refactor
 
+## 2023.07.03:
+* :twisted_rightwards_arrows: refactor: action.yml: renamed workflow `Git Checkout Extension` to `git-checkout-extension`
+
 ## 2023.06.26:
 * :wrench: fixed: action.yml: missed to check `inputs.ref` for existence
 * :new: new: action.yml: added `actions--checkout-ref` input parameter to use specific `actions/checkout@<ref>` version (default: `v3`, variants: `v2`)
