@@ -4,6 +4,10 @@
 name: git-checkout-extension
 description: 'GitHub composite action extension of `actions/checkout` action'
 
+branding:
+  icon:  upload
+  color: purple
+
 inputs:
   # CAUTION:
   #   The `inputs` is derived from the https://github.com/actions/checkout action script.
