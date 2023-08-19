@@ -47,7 +47,7 @@ inputs:
     default: v3
 
   mkdir-p:
-    default: false
+    default: ''
 
 runs:
   using: "composite"

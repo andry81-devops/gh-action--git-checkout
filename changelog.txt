@@ -1,3 +1,6 @@
+2023.08.19:
+* fixed: action.yml: `mkdir-p` wrong default value
+
 2023.07.10:
 * new: action.yml: branding values
 
