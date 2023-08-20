@@ -1,3 +1,7 @@
+2023.08.20:
+* fixed: action.yml: every instruction in a shell script must not return not zero return code in case of special `.github-private` repository because `set -e` command is issued by default
+         https://github.com/andry81-devops/gh-action--git-checkout/issues/2: `Fails to do checkout on newly created private repo`
+
 2023.08.19:
 * fixed: action.yml: `mkdir-p` wrong default value
 

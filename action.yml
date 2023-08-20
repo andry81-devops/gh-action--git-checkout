@@ -60,11 +60,13 @@ runs:
         ### [git-checkout-extension][01] check repository on existence and has a branch reference: `${{ inputs.repository }}`
         # CAUTION: must be with a token, otherwise will fail on a private repository
         if [[ -n "${{ inputs.ref }}" ]]; then
-          git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" "${{ inputs.ref }}" > /dev/null 2>&1
+          # suppress not zero exit code
+          { git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" "${{ inputs.ref }}" > /dev/null 2>&1; last_error=$?; } || (( 1 ))
         else
-          git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" > /dev/null 2>&1
+          # suppress not zero exit code
+          { git ls-remote -q --exit-code "https://${{ inputs.token }}@github.com/${{ inputs.repository }}" > /dev/null 2>&1; last_error=$?; } || (( 1 ))
         fi
-        if (( ! $? )); then
+        if (( ! last_error )); then
           echo "is-repo-exists-and-has-ref=true" >> "$GITHUB_OUTPUT"
         else
           echo "is-repo-exists-and-has-ref=false" >> "$GITHUB_OUTPUT"
