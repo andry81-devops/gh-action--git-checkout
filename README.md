@@ -43,8 +43,8 @@
 ---
 
 <p align="center">
-  <a href="https://github.com/andry81-devops/gh-action--git-checkout/blob/master/userlog.md">Userlog</a>
-• <a href="https://github.com/andry81-devops/gh-action--git-checkout/blob/master/changelog.txt">Changelog</a>
+  <a href="https://github.com/andry81-devops/gh-action--git-checkout/tree/HEAD/userlog.md">Userlog</a>
+• <a href="https://github.com/andry81-devops/gh-action--git-checkout/tree/HEAD/changelog.txt">Changelog</a>
 • <a href="#known-issues">Known issues</a>
 • <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
@@ -84,7 +84,8 @@ steps:
         ...
 ```
 
-> **Note** See <a href="https://github.com/andry81-devops/github-accum-stats#reuse">REUSE</a> section for details if you have multiple repositories and want to store all GitHub workflow scripts (`.github/workflows/*.yml`) in a single repository.
+> [!NOTE]
+> See <a href="https://github.com/andry81-devops/github-accum-stats#reuse">REUSE</a> section for details if you have multiple repositories and want to store all GitHub workflow scripts (`.github/workflows/*.yml`) in a single repository.
 
 ## Known Issues
 
@@ -96,4 +97,4 @@ https://github.com/andry81-devops/gh-known-issues#last-known-issues-updates
 
 ## Copyright and License
 
-Code and documentation copyright 2022 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81-devops/gh-action--git-checkout/blob/master/license.txt)
+Code and documentation copyright 2022 Andrey Dibrov. Code released under [MIT License](https://github.com/andry81-devops/gh-action--git-checkout/tree/HEAD/license.txt)
