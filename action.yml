@@ -24,14 +24,26 @@ inputs:
     required: false
   ssh-strict:
     default: true
+  ssh-user:
+    default: git
   persist-credentials:
     default: true
   path:
     required: false
   clean:
     default: true
+  filter:
+    default: null
+  sparse-checkout:
+    default: null
+  sparse-checkout-cone-mode:
+    default: true
   fetch-depth:
     default: 1
+  fetch-tags:
+    default: false
+  show-progress:
+    default: true
   lfs:
     default: false
   submodules:
@@ -41,10 +53,10 @@ inputs:
   github-server-url:
     required: false
 
-  # available: v3 | v2
+  # available: v4 | v3 | v2
   actions--checkout-ref:
     required: false
-    default: v3
+    default: v4
 
   mkdir-p:
     default: ''
@@ -79,43 +91,71 @@ runs:
     #   `Boolean inputs are not actually booleans` : https://github.com/actions/runner/issues/1483
     #
 
-    - name: "[git-checkout-extension][02] if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v3') }}"
+    - name: "[git-checkout-extension][02] if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v4') }}"
       #if: ${{ steps.check-repo-exists-and-has-ref.conclusion == 'success' }}
+      if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v4') }}
+      uses: actions/checkout@v4
+      with:
+        repository:                 ${{ inputs.repository }}
+        ref:                        ${{ inputs.ref }}
+        token:                      ${{ inputs.token }}
+        ssh-key:                    ${{ inputs.ssh-key }}
+        ssh-known-hosts:            ${{ inputs.ssh-known-hosts }}
+        ssh-strict:                 ${{ inputs.ssh-strict }}
+        ssh-user:                   ${{ inputs.ssh-user }}
+        persist-credentials:        ${{ inputs.persist-credentials }}
+        path:                       ${{ inputs.path }}
+        clean:                      ${{ inputs.clean }}
+        filter:                     ${{ inputs.filter }}
+        sparse-checkout:            ${{ inputs.sparse-checkout }}
+        sparse-checkout-cone-mode:  ${{ inputs.sparse-checkout-cone-mode }}
+        fetch-depth:                ${{ inputs.fetch-depth }}
+        fetch-tags:                 ${{ inputs.fetch-tags }}
+        show-progress:              ${{ inputs.show-progress }}
+        lfs:                        ${{ inputs.lfs }}
+        submodules:                 ${{ inputs.submodules }}
+        set-safe-directory:         ${{ inputs.set-safe-directory }}
+        github-server-url:          ${{ inputs.github-server-url }}
+
+    - name: "[git-checkout-extension][02] if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v3') }}"
       if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v3') }}
       uses: actions/checkout@v3
       with:
-        repository:           ${{ inputs.repository }}
-        ref:                  ${{ inputs.ref }}
-        token:                ${{ inputs.token }}
-        ssh-key:              ${{ inputs.ssh-key }}
-        ssh-known-hosts:      ${{ inputs.ssh-known-hosts }}
-        ssh-strict:           ${{ inputs.ssh-strict }}
-        persist-credentials:  ${{ inputs.persist-credentials }}
-        path:                 ${{ inputs.path }}
-        clean:                ${{ inputs.clean }}
-        fetch-depth:          ${{ inputs.fetch-depth }}
-        lfs:                  ${{ inputs.lfs }}
-        submodules:           ${{ inputs.submodules }}
-        set-safe-directory:   ${{ inputs.set-safe-directory }}
-        github-server-url:    ${{ inputs.github-server-url }}
+        repository:                 ${{ inputs.repository }}
+        ref:                        ${{ inputs.ref }}
+        token:                      ${{ inputs.token }}
+        ssh-key:                    ${{ inputs.ssh-key }}
+        ssh-known-hosts:            ${{ inputs.ssh-known-hosts }}
+        ssh-strict:                 ${{ inputs.ssh-strict }}
+        persist-credentials:        ${{ inputs.persist-credentials }}
+        path:                       ${{ inputs.path }}
+        clean:                      ${{ inputs.clean }}
+        sparse-checkout:            ${{ inputs.sparse-checkout }}
+        sparse-checkout-cone-mode:  ${{ inputs.sparse-checkout-cone-mode }}
+        fetch-depth:                ${{ inputs.fetch-depth }}
+        fetch-tags:                 ${{ inputs.fetch-tags }}
+        lfs:                        ${{ inputs.lfs }}
+        submodules:                 ${{ inputs.submodules }}
+        set-safe-directory:         ${{ inputs.set-safe-directory }}
+        github-server-url:          ${{ inputs.github-server-url }}
 
     - name: "[git-checkout-extension][03] if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v2') }}"
       if: ${{ (steps.check-repo-exists-and-has-ref.outputs.is-repo-exists-and-has-ref == 'true') && (inputs.actions--checkout-ref == 'v2') }}
       uses: actions/checkout@v2
       with:
-        repository:           ${{ inputs.repository }}
-        ref:                  ${{ inputs.ref }}
-        token:                ${{ inputs.token }}
-        ssh-key:              ${{ inputs.ssh-key }}
-        ssh-known-hosts:      ${{ inputs.ssh-known-hosts }}
-        ssh-strict:           ${{ inputs.ssh-strict }}
-        persist-credentials:  ${{ inputs.persist-credentials }}
-        path:                 ${{ inputs.path }}
-        clean:                ${{ inputs.clean }}
-        fetch-depth:          ${{ inputs.fetch-depth }}
-        lfs:                  ${{ inputs.lfs }}
-        submodules:           ${{ inputs.submodules }}
-        set-safe-directory:   ${{ inputs.set-safe-directory }}
+        repository:                 ${{ inputs.repository }}
+        ref:                        ${{ inputs.ref }}
+        token:                      ${{ inputs.token }}
+        ssh-key:                    ${{ inputs.ssh-key }}
+        ssh-known-hosts:            ${{ inputs.ssh-known-hosts }}
+        ssh-strict:                 ${{ inputs.ssh-strict }}
+        persist-credentials:        ${{ inputs.persist-credentials }}
+        path:                       ${{ inputs.path }}
+        clean:                      ${{ inputs.clean }}
+        fetch-depth:                ${{ inputs.fetch-depth }}
+        lfs:                        ${{ inputs.lfs }}
+        submodules:                 ${{ inputs.submodules }}
+        set-safe-directory:         ${{ inputs.set-safe-directory }}
 
     - name: '[git-checkout-extension][04] working copy initialization: `${{ inputs.path }}`'
       #if: ${{ steps.check-repo-exists-and-has-ref.conclusion != 'success' }}
