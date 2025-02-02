@@ -1,4 +1,7 @@
 2024.02.02:
+* refactor: README.md: minor refactor
+
+2024.02.02:
 * changed: action.yml: sync with `actions/checkout@v4.2.2`, `actions/checkout@v3.6.0`, `actions/checkout@v2.7.0`
 
 2025.02.02:

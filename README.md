@@ -49,9 +49,9 @@
 • <a href="#copyright-and-license"><img src="https://github.com/andry81-cache/gh-content-static-cache/raw/master/common/badges/license/mit-license.svg" valign="middle" alt="copyright and license" />&nbsp;Copyright and License</a>
 </p>
 
-<h4 align="center">GitHub composite action extension of <tt>actions/checkout</tt> action.<br/>
-<br/>
-Tutorial to use with: https://github.com/andry81-devops/github-action-extensions</h4>
+<h4 align="center">GitHub composite action extension of <tt>actions/checkout</tt> action.</h4>
+
+Tutorial to use with: https://github.com/andry81-devops/github-action-extensions
 
 All tutorials: https://github.com/andry81/index#tutorials
 
